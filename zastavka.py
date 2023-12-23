@@ -1,3 +1,4 @@
+import pygame_textinput
 import pygame
 from main import *
 import sys
@@ -5,6 +6,7 @@ import os
 from batton import *
 from object_renderer import *
 from gromcost import Gromcost
+from avtorizastia import *
 
 class Open:
     def __init__(self, game):
@@ -45,7 +47,7 @@ class Open:
                     if self.record.is_hovered:
                         pass
                     if self.vhod.is_hovered:
-                        pass
+                        return self.runav()
                     if self.gromcoste.is_hovered:
                         self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
                         pg.mixer.music.set_volume((event.pos[0] - 1250) // 3 / 100)
@@ -73,6 +75,7 @@ class Open:
             clock.tick(60)
 
     def but(self):
+        self.login = ''
         self.pustn = Button(100, 100, 400, 100, 'Египетские пиромиды', 'res/cnopcado.png', 'res/cnopcapos.png',
                             'res/vhod.mp3')
         self.zamok = Button(1100, 100, 400, 100, 'Заброшеный замок', 'res/cnopcado.png', 'res/cnopcapos.png',
@@ -83,6 +86,13 @@ class Open:
         self.gromcoste = Button(1250, 800, 300, 50, '', 'res/gromcost.png', 'res/gromcost.png', 'res/vhod.mp3')
         self.vc = Button(1190, 803, 50, 50, '', 'res/vc.png', 'res/vcn.png', 'res/vhod.mp3')
         self.gromcost = Gromcost(self.game.screen, 300)
+        self.exe = Button(600, 650, 400, 80, 'Вернуться', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+        self.save = Button(600, 550, 400, 80, 'Войти', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+        self.vvodlo = Button(300, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
+        self.vvodpar = Button(900, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
+        self.font = pygame.font.SysFont('arial', 50)
+
+
 
     def clic(self, event):
         self.zamok.chec_hover(event.pos)
@@ -97,6 +107,78 @@ class Open:
         self.ex.music(event)
         self.pustn.music(event)
         self.vc.chec_hover(event.pos)
+#запуск окна входа в акаунт
+    def runav(self):
+        clock = pg.time.Clock()
+        flag = False
+        active, active1 = False, False
+        font = pygame.font.SysFont('arial', 50)
+        self.text()
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.terminate()
+                if event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                    if self.exe.is_hovered:
+                        return self.runsc()
+                    if self.vvodlo.is_hovered:
+                        flag = not flag
+                    if self.save.is_hovered:
+                        rezalt, login = vhodifadm(self.vvodlo.text, self.vvodpar.text)
+                        if rezalt:
+                            self.login = login
+                            self.vhod = Button(600, 300, 400, 80, self.login, 'res/login.png', 'res/login2.png',
+                                               'res/vhod.mp3')
+                            return self.runsc()
+                        else:
+                            self.resal = font.render(login, 10, (255, 0, 0))
+                    if self.vvodlo.rect.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
+                        self.user_text = ''
+                    if self.vvodpar.rect.collidepoint(event.pos):
+                        active1 = True
+                    else:
+                        active1 = False
+                        self.user_text = ''
+                if event.type == pg.MOUSEMOTION:
+                    self.exe.chec_hover(event.pos)
+                    self.exe.music(event)
+                    self.save.chec_hover(event.pos)
+                    self.save.music(event)
+                if event.type == pygame.KEYDOWN and (active or active1):
+                    if event.key == pygame.K_BACKSPACE:
+                        self.user_text = self.user_text[:-1]
+                    else:
+                        self.user_text += event.unicode
+            self.avto(active, active1)
+            pg.display.flip()
+            clock.tick(60)
+
+    def text(self):
+        self.base_font = pygame.font.Font(None, 32)
+        self.user_text = ''
+        font = pygame.font.SysFont('arial', 50)
+        self.string_rendered = font.render('Пароль:', 10, (255, 0, 0))
+        self.string_rendered1 = font.render('Логин:', 10, (255, 0, 0))
+        self.resal = font.render('', 10, (255, 0, 0))
+        self.intro_rect = self.string_rendered.get_rect().move(900, 300)
+        self.intro_rect1 = self.string_rendered1.get_rect().move(300, 300)
+        self.intro_rect2 = self.string_rendered1.get_rect().move(300, 100)
+
+
+    def avto(self, active, active1):
+        if active and self.vvodlo.text != self.user_text:
+            self.vvodlo.text = self.user_text
+        if active1 and self.vvodpar.text != self.user_text:
+            self.vvodpar.text = self.user_text
+        self.game.screen.blit(self.fon, (0, 0))
+        self.game.screen.blit(self.string_rendered, self.intro_rect)
+        self.game.screen.blit(self.string_rendered1, self.intro_rect1)
+        self.game.screen.blit(self.resal, self.intro_rect2)
+        avt.draw(self.game.screen)
+        avt.update(self.game.screen)
 
 
 

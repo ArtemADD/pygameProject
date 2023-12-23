@@ -1,10 +1,11 @@
 import pygame as pg
 
 all_sprites = pg.sprite.Group()
+avt = pg.sprite.Group()
 
 class Button(pg.sprite.Sprite):
-    def __init__(self, x, y, weght, hight, text, image_do, image_posle, mus):
-        super().__init__(all_sprites)
+    def __init__(self, x, y, weght, hight, text, image_do, image_posle, mus, grup=all_sprites):
+        super().__init__(grup)
         self.x, self.y, self.weght, self.hight, self.text = x, y, weght, hight, text
         self.image_do, self.image_posle = pg.image.load(image_do).convert_alpha(), pg.image.load(image_posle).convert_alpha()
         self.image_do, self.image_posle = pg.transform.scale(self.image_do, (weght, hight)), \
