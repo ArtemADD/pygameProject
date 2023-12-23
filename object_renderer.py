@@ -22,8 +22,8 @@ class ObjectRenderer:
         return pg.transform.scale(texture, res)
 
     def load_wall_textures(self):
-        return {
-            1: self.get_texture('res/wall1.png'),
-            2: self.get_texture('res/wall2.png'),
-            3: self.get_texture('res/wall3.png')
-        }
+            return {
+                1: self.get_texture('res/wall1.png'),
+                2: self.get_texture('res/stone wall 6.png'),
+                3: self.get_texture('res/wall3.png')
+            }

@@ -5,22 +5,25 @@ from raycasting import *
 from player import *
 from setting import *
 from object_renderer import *
+from zastavka import *
 
 
 class Game:
     def __init__(self):
         pg.init()
+
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
         pg.mouse.set_visible(False)
         self.delta_time = 1
+        self.num = None
         self.new_game()
 
     def new_game(self):
         self.map = Map(self)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
-        self.raycasting = RayCasting(self)
+        self.raycasting = RayCasting(self, self.num)
 
     def update(self):
         self.player.update()
@@ -42,6 +45,8 @@ class Game:
                 sys.exit()
 
     def run(self):
+        pg.mixer.music.load('res/shvatca.mp3')
+        pg.mixer.music.play(-1)
         while True:
             self.check_events()
             self.update()
@@ -50,4 +55,5 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.run()
+    ocno = Open(game)
+    ocno.runsc()

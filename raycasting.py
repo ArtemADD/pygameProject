@@ -4,8 +4,9 @@ from setting import *
 
 
 class RayCasting:
-    def __init__(self, game):
+    def __init__(self, game, num):
         self.game = game
+        self.num = num
         self.ray_casting_result = []
         self.objects_to_render = []
         self.textures = self.game.object_renderer.wall_textures
