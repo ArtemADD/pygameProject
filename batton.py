@@ -27,7 +27,6 @@ class Button(pg.sprite.Sprite):
     #наведение мышы
     def chec_hover(self, pos_mous):
         if self.x <= pos_mous[0] <= self.x + self.weght and self.y <= pos_mous[1] <= self.y + self.hight:
-
             self.is_hovered = True
         else:
             self.is_hovered = False
