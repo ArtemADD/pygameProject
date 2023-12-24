@@ -11,16 +11,15 @@ from zastavka import *
 class Game:
     def __init__(self):
         pg.init()
-
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
         pg.mouse.set_visible(False)
         self.delta_time = 1
         self.num = None
-        self.new_game()
 
-    def new_game(self):
-        self.map = Map(self)
+
+    def new_game(self, mini_map):
+        self.map = Map(self, mini_map)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self, self.num)
@@ -44,7 +43,8 @@ class Game:
                 pg.quit()
                 sys.exit()
 
-    def run(self):
+    def run(self, mini_map):
+        self.new_game(mini_map)
         pg.mixer.music.load('res/shvatca.mp3')
         pg.mixer.music.play(-1)
         while True:

@@ -7,6 +7,7 @@ from batton import *
 from object_renderer import *
 from gromcost import Gromcost
 from avtorizastia import *
+from map import *
 
 class Open:
     def __init__(self, game):
@@ -22,9 +23,9 @@ class Open:
         pygame.quit()
         sys.exit()
 
-    def gamee(self):
+    def gamee(self, mini_map):
         pg.mixer.music.stop()
-        self.game.run()
+        self.game.run(mini_map)
 
     def runsc(self):
         clock = pygame.time.Clock()
@@ -37,11 +38,11 @@ class Open:
                     if self.pustn.is_hovered:
                         self.pustn.mus.stop()
                         pg.mouse.set_visible(False)
-                        return self.gamee()
+                        return self.gamee(mini_map1)
                     elif self.zamok.is_hovered:
                         self.zamok.mus.stop()
                         pg.mouse.set_visible(False)
-                        return self.gamee()
+                        return self.gamee(mini_map2)
                     if self.ex.is_hovered:
                         self.terminate()
                     if self.record.is_hovered:
