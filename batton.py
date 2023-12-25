@@ -3,13 +3,15 @@ import pygame as pg
 all_sprites = pg.sprite.Group()
 avt = pg.sprite.Group()
 
+
 class Button(pg.sprite.Sprite):
-    def __init__(self, x, y, weght, hight, text, image_do, image_posle, mus, grup=all_sprites):
-        super().__init__(grup)
-        self.x, self.y, self.weght, self.hight, self.text = x, y, weght, hight, text
-        self.image_do, self.image_posle = pg.image.load(image_do).convert_alpha(), pg.image.load(image_posle).convert_alpha()
-        self.image_do, self.image_posle = pg.transform.scale(self.image_do, (weght, hight)), \
-            pg.transform.scale(self.image_posle, (weght, hight))
+    def __init__(self, x, y, width, height, text, image_do, image_posle, mus, group=all_sprites):
+        super().__init__(group)
+        self.x, self.y, self.width, self.height, self.text = x, y, width, height, text
+        self.image_do, self.image_posle = (pg.image.load(image_do).convert_alpha(),
+                                           pg.image.load(image_posle).convert_alpha())
+        self.image_do, self.image_posle = pg.transform.scale(self.image_do, (width, height)), \
+            pg.transform.scale(self.image_posle, (width, height))
         self.image = self.image_do
         self.t = 0
         self.channel = pg.mixer.Channel(0)
@@ -21,19 +23,19 @@ class Button(pg.sprite.Sprite):
         image_con = self.image_posle if self.is_hovered else self.image_do
         self.image = image_con
         font = pg.font.Font(None, 36)
-        text_surfase = font.render(self.text, True, (255, 255, 255))
-        text = text_surfase.get_rect(center=self.rect.center)
-        sc.blit(text_surfase, text)
+        text_surface = font.render(self.text, True, (255, 255, 255))
+        text = text_surface.get_rect(center=self.rect.center)
+        sc.blit(text_surface, text)
 
-    #наведение мышы
-    def chec_hover(self, pos_mous):
-        if self.x <= pos_mous[0] <= self.x + self.weght and self.y <= pos_mous[1] <= self.y + self.hight:
+    #  наведение мыши
+    def check_hover(self, pos_mous):
+        if self.x <= pos_mous[0] <= self.x + self.width and self.y <= pos_mous[1] <= self.y + self.height:
             self.is_hovered = True
         else:
             self.is_hovered = False
             self.t = 0
 
-    #музыка
+    #  музыка
     def music(self, event):
         if event.type == pg.MOUSEMOTION and self.is_hovered and self.t == 0:
             self.t += 1

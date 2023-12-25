@@ -1,4 +1,4 @@
-import pygame_textinput
+# import pygame_textinput
 import pygame
 from main import *
 import sys
@@ -9,6 +9,7 @@ from gromcost import Gromcost
 from avtorizastia import *
 from map import *
 
+
 class Open:
     def __init__(self, game):
         self.game = game
@@ -17,6 +18,7 @@ class Open:
         self.fon = pygame.transform.scale(image, (1600, 900))
         pg.mixer.music.load('res/fon.mp3')
         pg.mixer.music.play(-1)
+        pg.mixer.music.set_volume(0)
         self.but()
 
     def terminate(self):
@@ -51,7 +53,7 @@ class Open:
                         return self.runav()
                     if self.gromcoste.is_hovered:
                         self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
-                        pg.mixer.music.set_volume((event.pos[0] - 1250) // 3 / 100)
+                        pg.mixer.music.set_volume((event.pos[0] - 1250) // 3 / 1000)
                     if self.vc.is_hovered:
                         if mus:
                             self.vc.image_do = pg.transform.scale(pg.image.load('res/vcl.png').convert_alpha(), (50, 50))
@@ -77,9 +79,9 @@ class Open:
 
     def but(self):
         self.login = ''
-        self.pustn = Button(100, 100, 400, 100, 'Египетские пиромиды', 'res/cnopcado.png', 'res/cnopcapos.png',
+        self.pustn = Button(100, 100, 400, 100, 'Египетские пирамиды', 'res/cnopcado.png', 'res/cnopcapos.png',
                             'res/vhod.mp3')
-        self.zamok = Button(1100, 100, 400, 100, 'Заброшеный замок', 'res/cnopcado.png', 'res/cnopcapos.png',
+        self.zamok = Button(1100, 100, 400, 100, 'Заброшенный замок', 'res/cnopcado.png', 'res/cnopcapos.png',
                             'res/vhod.mp3')
         self.ex = Button(600, 600, 400, 80, 'Выход', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3')
         self.record = Button(600, 400, 400, 80, 'Рекорды', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3')
@@ -93,22 +95,21 @@ class Open:
         self.vvodpar = Button(900, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
         self.font = pygame.font.SysFont('arial', 50)
 
-
-
     def clic(self, event):
-        self.zamok.chec_hover(event.pos)
-        self.pustn.chec_hover(event.pos)
-        self.ex.chec_hover(event.pos)
-        self.record.chec_hover(event.pos)
-        self.vhod.chec_hover(event.pos)
-        self.gromcoste.chec_hover(event.pos)
+        self.zamok.check_hover(event.pos)
+        self.pustn.check_hover(event.pos)
+        self.ex.check_hover(event.pos)
+        self.record.check_hover(event.pos)
+        self.vhod.check_hover(event.pos)
+        self.gromcoste.check_hover(event.pos)
         self.vhod.music(event)
         self.record.music(event)
         self.zamok.music(event)
         self.ex.music(event)
         self.pustn.music(event)
-        self.vc.chec_hover(event.pos)
-#запуск окна входа в акаунт
+        self.vc.check_hover(event.pos)
+    # запуск окна входа в аккаунт
+
     def runav(self):
         clock = pg.time.Clock()
         flag = False
@@ -144,9 +145,9 @@ class Open:
                         active1 = False
                         self.user_text = ''
                 if event.type == pg.MOUSEMOTION:
-                    self.exe.chec_hover(event.pos)
+                    self.exe.check_hover(event.pos)
                     self.exe.music(event)
-                    self.save.chec_hover(event.pos)
+                    self.save.check_hover(event.pos)
                     self.save.music(event)
                 if event.type == pygame.KEYDOWN and (active or active1):
                     if event.key == pygame.K_BACKSPACE:
@@ -168,7 +169,6 @@ class Open:
         self.intro_rect1 = self.string_rendered1.get_rect().move(300, 300)
         self.intro_rect2 = self.string_rendered1.get_rect().move(300, 100)
 
-
     def avto(self, active, active1):
         if active and self.vvodlo.text != self.user_text:
             self.vvodlo.text = self.user_text
@@ -180,6 +180,3 @@ class Open:
         self.game.screen.blit(self.resal, self.intro_rect2)
         avt.draw(self.game.screen)
         avt.update(self.game.screen)
-
-
-
