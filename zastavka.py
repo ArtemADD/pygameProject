@@ -16,9 +16,9 @@ class Open:
         pg.mouse.set_visible(True)
         image = pygame.image.load('res/fon.jpg')
         self.fon = pygame.transform.scale(image, (1600, 900))
-        pg.mixer.music.load('res/fon.mp3')
-        pg.mixer.music.play(-1)
-        pg.mixer.music.set_volume(0)
+        self.flag2 = True
+        self.zvuc = 0.1
+
         self.but()
 
     def terminate(self):
@@ -30,6 +30,9 @@ class Open:
         self.game.run(mini_map)
 
     def runsc(self):
+        pg.mixer.music.load('res/fon.mp3')
+        pg.mixer.music.play(-1)
+        pg.mixer.music.set_volume(self.zvuc)
         clock = pygame.time.Clock()
         mus = True
         while True:
@@ -45,6 +48,9 @@ class Open:
                         self.zamok.mus.stop()
                         pg.mouse.set_visible(False)
                         return self.gamee(mini_map2)
+                    if self.login != '':
+                        if self.acaunt.is_hovered:
+                            return self.Avatar()
                     if self.ex.is_hovered:
                         self.terminate()
                     if self.record.is_hovered:
@@ -53,7 +59,10 @@ class Open:
                         return self.runav()
                     if self.gromcoste.is_hovered:
                         self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
-                        pg.mixer.music.set_volume((event.pos[0] - 1250) // 3 / 1000)
+                        self.zvuc = (event.pos[0] - 1250) // 3 / 1000
+                        pg.mixer.music.set_volume(self.zvuc)
+                        for item in Buttons:
+                            item.grm(self.zvuc + 0.2)
                     if self.vc.is_hovered:
                         if mus:
                             self.vc.image_do = pg.transform.scale(pg.image.load('res/vcl.png').convert_alpha(), (50, 50))
@@ -61,13 +70,19 @@ class Open:
                             self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(),
                                                                      (0, 50))
                             pg.mixer.music.set_volume(0)
+                            self.zvuc = 0
+                            for item in Buttons:
+                                item.grm(0)
                         else:
                             self.vc.image_do = pg.transform.scale(pg.image.load('res/vc.png').convert_alpha(), (50, 50))
                             self.vc.image_posle = pg.transform.scale(pg.image.load('res/vcn.png').convert_alpha(),
                                                                      (50, 50))
                             self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(),
                                                                      (300, 50))
-                            pg.mixer.music.set_volume(1)
+                            self.zvuc = 0.1
+                            pg.mixer.music.set_volume(self.zvuc)
+                            for item in Buttons:
+                                item.grm(self.zvuc + 0.2)
                         mus = not mus
                 if event.type == pygame.MOUSEMOTION:
                     self.clic(event)
@@ -90,10 +105,13 @@ class Open:
         self.vc = Button(1190, 803, 50, 50, '', 'res/vc.png', 'res/vcn.png', 'res/vhod.mp3')
         self.gromcost = Gromcost(self.game.screen, 300)
         self.exe = Button(600, 650, 400, 80, 'Вернуться', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+
         self.save = Button(600, 550, 400, 80, 'Войти', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+
         self.vvodlo = Button(300, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
         self.vvodpar = Button(900, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
         self.font = pygame.font.SysFont('arial', 50)
+        self.rama = Button(165, 155, 310, 310, '', 'res/scinplaer.png', 'res/scinplaer.png', 'res/vhod.mp3', scin)
 
     def clic(self, event):
         self.zamok.check_hover(event.pos)
@@ -102,6 +120,9 @@ class Open:
         self.record.check_hover(event.pos)
         self.vhod.check_hover(event.pos)
         self.gromcoste.check_hover(event.pos)
+        if self.login != '':
+            self.acaunt.check_hover(event.pos)
+            self.acaunt.music(event)
         self.vhod.music(event)
         self.record.music(event)
         self.zamok.music(event)
@@ -128,9 +149,15 @@ class Open:
                     if self.save.is_hovered:
                         rezalt, login = vhodifadm(self.vvodlo.text, self.vvodpar.text)
                         if rezalt:
-                            self.login = login
-                            self.vhod = Button(600, 300, 400, 80, self.login, 'res/login.png', 'res/login2.png',
-                                               'res/vhod.mp3')
+                            if self.login == '':
+                                self.login = login
+                                self.acaunt = Button(600, 300, 400, 80, self.login, 'res/login.png', 'res/login2.png',
+                                                   'res/vhod.mp3')
+                                self.scinplaer = Button(170, 150, 300, 300, '', scina()[0], scina()[0], scina()[1], scin)
+                            else:
+                                self.login = login
+                                self.acaunt.text = self.login
+                                self.scinplaer.up(scina()[0], scina()[0], scina()[1], self.zvuc)
                             return self.runsc()
                         else:
                             self.resal = font.render(login, 10, (255, 0, 0))
@@ -180,3 +207,107 @@ class Open:
         self.game.screen.blit(self.resal, self.intro_rect2)
         avt.draw(self.game.screen)
         avt.update(self.game.screen)
+
+    def butscin(self):
+
+        self.exee = Button(170, 600, 300, 80, 'Вернуться', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3',
+                           scin)
+        self.savee = Button(170, 500, 300, 80, 'Сохранить', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', scin)
+
+        self.rama2 = Button(490, 155, 990, 660, '', 'res/opisanie.png', 'res/opisanie.png', 'res/vhod.mp3', scin)
+        self.scin1 = Button(500, 165, 300, 300, '', 'res/FlareFemaleHero1.png', 'res/FlareFemaleHero1.png',
+                            'res/женский голос больно.mp3', scin)
+        self.scin2 = Button(820, 165, 300, 300, '', 'res/FlareFemaleHero2.png', 'res/FlareFemaleHero2.png',
+                            'res/ДевушкаЭльф.mp3', scin)
+        self.scin3 = Button(1140, 165, 300, 300, '', 'res/FlareFemaleHero3.png', 'res/FlareFemaleHero3.png',
+                            'res/женские лучшие.mp3', scin)
+        self.scin4 = Button(500, 485, 300, 300, '', 'res/FlareMaleHero1.png', 'res/FlareMaleHero1.png',
+                            'res/Мужской вставай.mp3', scin)
+        self.scin5 = Button(820, 485, 300, 300, '', 'res/FlareMaleHero2.png', 'res/FlareMaleHero2.png',
+                            'res/Грозный мужчина.mp3', scin)
+        self.scin6 = Button(1140, 485, 300, 300, '', 'res/FlareMaleHero3.png', 'res/FlareMaleHero3.png',
+                            'res/Муж голос добыча.mp3', scin)
+
+
+    def scinif(self, event):
+        if self.exee.is_hovered:
+            return self.runsc()
+        if self.savee.is_hovered:
+            update(self.scinplaer.image_scin, self.scinplaer.mus_scin)
+            return self.runsc()
+        if self.scinplaer.is_hovered:
+            self.scinplaer.music(event)
+            self.scinplaer.t = 0
+        if self.scin1.is_hovered:
+            self.scin1.music(event)
+            self.scin1.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus_scin = self.scin1.image_scin, self.scin1.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin1.image_do, self.scin1.image_posle, self.scin1.mus
+        if self.scin2.is_hovered:
+            self.scin2.music(event)
+            self.scin2.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus_scin = self.scin2.image_scin, self.scin2.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin2.image_do, self.scin2.image_posle, self.scin2.mus
+        if self.scin3.is_hovered:
+            self.scin3.music(event)
+            self.scin3.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus_scin = self.scin3.image_scin, self.scin3.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin3.image_do, self.scin3.image_posle, self.scin3.mus
+        if self.scin4.is_hovered:
+            self.scin4.music(event)
+            self.scin4.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus = self.scin4.image_scin, self.scin4.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin4.image_do, self.scin4.image_posle, self.scin4.mus
+        if self.scin5.is_hovered:
+            self.scin5.music(event)
+            self.scin5.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus_scin = self.scin5.image_scin, self.scin5.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin5.image_do, self.scin5.image_posle, self.scin5.mus
+        if self.scin6.is_hovered:
+            self.scin6.music(event)
+            self.scin6.t = 0
+            self.scinplaer.image_scin, self.scinplaer.mus_scin = self.scin6.image_scin, self.scin6.mus_scin
+            self.scinplaer.image_do, self.scinplaer.image_posle, self.scinplaer.mus = \
+                self.scin6.image_do, self.scin6.image_posle, self.scin6.mus
+
+    def scinmaus(self, event):
+        self.scin1.check_hover(event.pos)
+        self.scin2.check_hover(event.pos)
+        self.scin3.check_hover(event.pos)
+        self.scin4.check_hover(event.pos)
+        self.scin5.check_hover(event.pos)
+        self.scin6.check_hover(event.pos)
+        self.scinplaer.check_hover(event.pos)
+        self.exee.check_hover(event.pos)
+        self.savee.check_hover(event.pos)
+        self.exee.music(event)
+        self.savee.music(event)
+
+    def Avatar(self):
+        if self.flag2:
+            self.butscin()
+            self.flag2 = False
+        clock = pg.time.Clock()
+        pg.mixer.music.load('res/fonscin.mp3')
+        pg.mixer.music.play(-1)
+        pg.mixer.music.set_volume(self.zvuc)
+        image2 = pygame.image.load('res/fon2.jpg')
+        self.fon2 = pygame.transform.scale(image2, (1600, 900))
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.terminate()
+                if event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                    self.scinif(event)
+                if event.type == pygame.MOUSEMOTION:
+                    self.scinmaus(event)
+            self.game.screen.blit(self.fon2, (0, 0))
+            scin.draw(self.game.screen)
+            scin.update(self.game.screen)
+            pg.display.flip()
+            clock.tick(60)
