@@ -40,11 +40,11 @@ class Open:
                 if event.type == pygame.QUIT:
                     self.terminate()
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    if self.pustn.is_hovered:
+                    if self.pustn.is_hovered and self.login != '':
                         self.pustn.mus.stop()
                         pg.mouse.set_visible(False)
                         return self.gamee(mini_map1)
-                    elif self.zamok.is_hovered:
+                    elif self.zamok.is_hovered and self.login != '':
                         self.zamok.mus.stop()
                         pg.mouse.set_visible(False)
                         return self.gamee(mini_map2)

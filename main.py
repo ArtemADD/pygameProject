@@ -38,10 +38,12 @@ class Game:
 
     def check_events(self):
         for event in pg.event.get():
-            if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+            if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
-
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                pg.mouse.set_visible(True)
+                return ocno.runsc()
     def run(self, mini_map):
         self.new_game(mini_map)
         pg.mixer.music.load('res/shvatca.mp3')
