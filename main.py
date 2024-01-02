@@ -7,6 +7,7 @@ from setting import *
 from object_renderer import *
 from zastavka import *
 from sprits_object import  *
+from object_handler import *
 
 
 class Game:
@@ -23,12 +24,12 @@ class Game:
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self, self.num)
-        self.static_sprite = SpritObject(self)
+        self.object_hender = ObjectHandler(self)
 
     def update(self):
         self.player.update()
         self.raycasting.update()
-        self.static_sprite.update()
+        self.object_hender.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
