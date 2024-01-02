@@ -25,7 +25,7 @@ class ObjectRenderer:
         self.screen.blit(bc, (0, HALF_HEIGHT))
 
     def render_game_objects(self):
-        list_objects = self.game.raycasting.objects_to_render
+        list_objects = sorted(self.game.raycasting.objects_to_render, key=lambda t: t[0], reverse=True)
         for depth, image, pos in list_objects:
             image.set_alpha(int(255 / (0.1 + depth ** 5 * 0.00002)))
             self.screen.blit(image, pos)

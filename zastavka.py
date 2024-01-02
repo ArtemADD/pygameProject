@@ -16,6 +16,8 @@ class Open:
         pg.mouse.set_visible(True)
         image = pygame.image.load('res/fon.jpg')
         self.fon = pygame.transform.scale(image, (1600, 900))
+        image = pygame.image.load('res/name.png')
+        self.name = pygame.transform.scale(image, (600, 100))
         self.flag2 = True
         self.zvuc = 0.1
 
@@ -87,6 +89,7 @@ class Open:
                 if event.type == pygame.MOUSEMOTION:
                     self.clic(event)
             self.game.screen.blit(self.fon, (0, 0))
+            self.game.screen.blit(self.name, (500, 170))
             all_sprites.draw(self.game.screen)
             all_sprites.update(self.game.screen)
             pygame.display.flip()

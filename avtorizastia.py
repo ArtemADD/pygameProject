@@ -17,7 +17,6 @@ def vhodifadm(login, parol):
     slova TEXT);
     ''')
     le = len(cursor.execute("""SELECT name FROM player""").fetchall())
-
     Flag1 = False
     cursor.execute("UPDATE player SET activ = '0'")
     if login != '':
@@ -26,9 +25,10 @@ def vhodifadm(login, parol):
             # если пароля и логина нет в базе даных то добавить
             s = [i[0] for i in cursor.execute("""SELECT name, parol FROM player""").fetchall()]
             print(s, login)
-            if login not in s:
+            if (login, parol) not in s:
                 cursor.execute('INSERT INTO player(ID, name, parol, activ, icon, slova) VALUES (?, ?, ?, ?, ?, ?)',
-                               (lew + 1, login, parol, '1', 'res/FlareMaleHero3.png', 'res/Муж голос добыча.mp3'))
+                               (lew + 1, str(login), str(parol), '1', 'res/FlareMaleHero3.png', 'res/Муж голос добыча.mp3'))
+                connection.commit()
             cursor.execute("UPDATE player SET  activ = '1'  WHERE name=? AND parol=?;",
                            (login, parol))
             connection.commit()
