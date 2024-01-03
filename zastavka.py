@@ -231,7 +231,6 @@ class Open:
         self.scin6 = Button(1140, 485, 300, 300, '', 'res/FlareMaleHero3.png', 'res/FlareMaleHero3.png',
                             'res/Муж голос добыча.mp3', scin)
 
-
     def scinif(self, event):
         if self.exee.is_hovered:
             return self.runsc()

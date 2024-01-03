@@ -58,7 +58,7 @@ class Player:
     def update(self):
         self.movement()
         self.mouse_control()
-        print(self.pos)
+        # print(self.pos)
 
     @property
     def pos(self):

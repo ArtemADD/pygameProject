@@ -1,4 +1,5 @@
 import pygame as pg
+from map import *
 from setting import *
 
 
@@ -8,7 +9,8 @@ class ObjectRenderer:
         self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
         self.sky_offset = 0
-        self.background = self.get_texture('res/bc_4.png', (WIDTH, HALF_HEIGHT))
+        self.bg_1 = self.get_texture('res/bg_1.png', (WIDTH, HALF_HEIGHT))
+        self.bg_2 = self.get_texture('res/bg_2_2.png', (WIDTH, HALF_HEIGHT))
 
     def draw(self):
         self.draw_background()
@@ -20,8 +22,9 @@ class ObjectRenderer:
         # self.screen.blit(self.wall_textures[2], (-self.sky_offset + WIDTH, 0))
         # pg.draw.rect(self.screen, '#6a5f31', (0, 0, WIDTH, HALF_HEIGHT))
         # pg.draw.rect(self.screen, '#6a5f31', (0, HALF_HEIGHT, WIDTH, HALF_HEIGHT))
-        self.screen.blit(self.background, (0, 0))
-        bc = pg.transform.flip(self.background, flip_y=True, flip_x=False)
+        bg = self.bg_2 if self.game.map.mini_map == mini_map2 else self.bg_1
+        self.screen.blit(bg, (0, 0))
+        bc = pg.transform.flip(bg, flip_y=True, flip_x=False)
         self.screen.blit(bc, (0, HALF_HEIGHT))
 
     def render_game_objects(self):

@@ -6,7 +6,7 @@ from player import *
 from setting import *
 from object_renderer import *
 from zastavka import *
-from sprits_object import  *
+from sprits_object import *
 from object_handler import *
 
 
@@ -46,12 +46,15 @@ class Game:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                pg.mouse.set_visible(True)
-                return ocno.runsc()
-    def run(self, mini_map):
-        self.new_game(mini_map)
-        pg.mixer.music.load('res/shvatca.mp3')
-        pg.mixer.music.play(-1)
+                # pg.mouse.set_visible(True)
+                # return ocno.runsc()
+                pg.quit()
+                sys.exit()
+
+    def run(self, m=mini_map2):
+        self.new_game(m)
+        # pg.mixer.music.load('res/shvatca.mp3')
+        # pg.mixer.music.play(-1)
         while True:
             self.check_events()
             self.update()
@@ -60,5 +63,6 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    ocno = Open(game)
-    ocno.runsc()
+    game.run()
+    # ocno = Open(game)
+    # ocno.runsc()

@@ -24,7 +24,7 @@ def vhodifadm(login, parol):
             lew = len(cursor.execute("""SELECT name FROM player""").fetchall())
             # если пароля и логина нет в базе даных то добавить
             s = [i[0] for i in cursor.execute("""SELECT name, parol FROM player""").fetchall()]
-            print(s, login)
+            # print(s, login)
             if (login, parol) not in s:
                 cursor.execute('INSERT INTO player(ID, name, parol, activ, icon, slova) VALUES (?, ?, ?, ?, ?, ?)',
                                (lew + 1, str(login), str(parol), '1', 'res/FlareMaleHero3.png', 'res/Муж голос добыча.mp3'))
@@ -43,7 +43,7 @@ def scina():
     connection = sqlite3.connect('plaeyrs.db')
     cursor = connection.cursor()
     s = [i for i in cursor.execute("""SELECT icon, slova FROM player WHERE activ = '1'""").fetchall()]
-    print(s)
+    # print(s)
     connection.close()
     return s[0]
 
