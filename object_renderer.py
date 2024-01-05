@@ -30,7 +30,7 @@ class ObjectRenderer:
     def render_game_objects(self):
         list_objects = sorted(self.game.raycasting.objects_to_render, key=lambda t: t[0], reverse=True)
         for depth, image, pos in list_objects:
-            image.set_alpha(int(255 / (0.1 + depth ** 5 * 0.00002)))
+            # image.set_alpha(int(255 / (0.1 + depth ** 5 * 0.00002)))
             self.screen.blit(image, pos)
 
     @staticmethod
@@ -40,7 +40,7 @@ class ObjectRenderer:
 
     def load_wall_textures(self):
         return {
-                1: self.get_texture('res/wall1.png'),
-                2: self.get_texture('res/stone wall 6.png'),
-                3: self.get_texture('res/wall3.png')
+                1: self.get_texture('res/textures/wall1.png'),
+                2: self.get_texture('res/textures/stone wall 6.png'),
+                3: self.get_texture('res/textures/wall3.png')
         }

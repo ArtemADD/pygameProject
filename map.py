@@ -31,7 +31,10 @@ mini_map2 = [
 class Map:
     def __init__(self, game, mini_map):
         self.game = game
-        self.mini_map = mini_map
+        if mini_map == 2:
+            self.mini_map = mini_map2
+        else:
+            self.mini_map = mini_map1
         self.world_map = {}
         self.get_map()
 

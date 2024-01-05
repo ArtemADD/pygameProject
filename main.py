@@ -19,8 +19,8 @@ class Game:
         self.delta_time = 1
         self.num = None
 
-    def new_game(self, mini_map):
-        self.map = Map(self, mini_map)
+    def new_game(self, m):
+        self.map = Map(self, m)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self, self.num)
@@ -46,15 +46,15 @@ class Game:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                # pg.mouse.set_visible(True)
-                # return ocno.runsc()
-                pg.quit()
-                sys.exit()
+                pg.mouse.set_visible(True)
+                return ocno.runsc()
+                # pg.quit()
+                # sys.exit()
 
-    def run(self, m=mini_map2):
+    def run(self, m=2):
         self.new_game(m)
-        # pg.mixer.music.load('res/shvatca.mp3')
-        # pg.mixer.music.play(-1)
+        pg.mixer.music.load('res/shvatca.mp3')
+        pg.mixer.music.play(-1)
         while True:
             self.check_events()
             self.update()
@@ -63,6 +63,6 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.run()
-    # ocno = Open(game)
-    # ocno.runsc()
+    # game.run()
+    ocno = Open(game)
+    ocno.runsc()
