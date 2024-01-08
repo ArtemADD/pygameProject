@@ -9,8 +9,9 @@ class ObjectRenderer:
         self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
         self.sky_offset = 0
-        self.bg_1 = self.get_texture('res/bg_1.png', (WIDTH, HALF_HEIGHT))
-        self.bg_2 = self.get_texture('res/bg_2_2.png', (WIDTH, HALF_HEIGHT))
+        self.bg_1 = self.get_texture('res/background/bg_1.png', (WIDTH, HALF_HEIGHT))
+        self.bg_2 = self.get_texture('res/background/bg_2_2.png', (WIDTH, HALF_HEIGHT))
+        self.flor1 = self.get_texture('res/background/flor1.png', (WIDTH, HALF_HEIGHT))
 
     def draw(self):
         self.draw_background()
@@ -22,10 +23,15 @@ class ObjectRenderer:
         # self.screen.blit(self.wall_textures[2], (-self.sky_offset + WIDTH, 0))
         # pg.draw.rect(self.screen, '#6a5f31', (0, 0, WIDTH, HALF_HEIGHT))
         # pg.draw.rect(self.screen, '#6a5f31', (0, HALF_HEIGHT, WIDTH, HALF_HEIGHT))
-        bg = self.bg_2 if self.game.map.mini_map == mini_map2 else self.bg_1
+        if self.game.map.m == 2:
+            bg = self.bg_2
+            fl = self.flor1
+        else:
+            bg = self.bg_1
+            fl = self.flor1
         self.screen.blit(bg, (0, 0))
-        bc = pg.transform.flip(bg, flip_y=True, flip_x=False)
-        self.screen.blit(bc, (0, HALF_HEIGHT))
+        self.screen.blit(fl, (0, HALF_HEIGHT))
+        # self.screen.fill('black')
 
     def render_game_objects(self):
         list_objects = sorted(self.game.raycasting.objects_to_render, key=lambda t: t[0], reverse=True)
@@ -42,5 +48,4 @@ class ObjectRenderer:
         return {
                 1: self.get_texture('res/textures/wall1.png'),
                 2: self.get_texture('res/textures/stone wall 6.png'),
-                3: self.get_texture('res/textures/wall3.png')
         }

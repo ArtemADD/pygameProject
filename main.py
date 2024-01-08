@@ -8,6 +8,8 @@ from object_renderer import *
 from zastavka import *
 from sprits_object import *
 from object_handler import *
+from weapon import *
+from sound import *
 
 
 class Game:
@@ -25,11 +27,14 @@ class Game:
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self, self.num)
         self.object_hender = ObjectHandler(self)
+        self.weapon = Weapon(self)
+        self.sound = Sound(self)
 
     def update(self):
         self.player.update()
         self.raycasting.update()
         self.object_hender.update()
+        self.weapon.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
@@ -37,6 +42,7 @@ class Game:
     def draw(self):
         # self.screen.fill('black')
         self.object_renderer.draw()
+        self.weapon.draw()
         # self.map.draw()
         # self.player.draw()
 
@@ -46,15 +52,16 @@ class Game:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                pg.mouse.set_visible(True)
-                return ocno.runsc()
-                # pg.quit()
-                # sys.exit()
+                # pg.mouse.set_visible(True)
+                # return ocno.runsc()
+                pg.quit()
+                sys.exit()
+            self.player.single_fire_event(event)
 
-    def run(self, m=2):
+    def run(self, m=1):
         self.new_game(m)
-        pg.mixer.music.load('res/shvatca.mp3')
-        pg.mixer.music.play(-1)
+        # pg.mixer.music.load('res/shvatca.mp3')
+        # pg.mixer.music.play(-1)
         while True:
             self.check_events()
             self.update()
@@ -63,6 +70,6 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    # game.run()
-    ocno = Open(game)
-    ocno.runsc()
+    game.run()
+    # ocno = Open(game)
+    # ocno.runsc()
