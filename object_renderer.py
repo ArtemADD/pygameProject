@@ -9,8 +9,8 @@ class ObjectRenderer:
         self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
         self.sky_offset = 0
-        self.bg_1 = self.get_texture('res/background/bg_1.png', (WIDTH, HALF_HEIGHT))
-        self.bg_2 = self.get_texture('res/background/bg_2_2.png', (WIDTH, HALF_HEIGHT))
+        self.bg_1 = self.get_texture('res/bg_1.png', (WIDTH, HALF_HEIGHT))
+        self.bg_2 = self.get_texture('res/bg_2_2.png', (WIDTH, HALF_HEIGHT))
 
     def draw(self):
         self.draw_background()

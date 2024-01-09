@@ -27,7 +27,7 @@ def vhodifadm(login, parol):
             # print(s, login)
             if (login, parol) not in s:
                 cursor.execute('INSERT INTO player(ID, name, parol, activ, icon, slova) VALUES (?, ?, ?, ?, ?, ?)',
-                               (lew + 1, str(login), str(parol), '1', 'res/icon/FlareMaleHero3.png', 'res/music/Муж голос добыча.mp3'))
+                               (lew + 1, str(login), str(parol), '1', 'res/FlareMaleHero3.png', 'res/Муж голос добыча.mp3'))
                 connection.commit()
             cursor.execute("UPDATE player SET  activ = '1'  WHERE name=? AND parol=?;",
                            (login, parol))

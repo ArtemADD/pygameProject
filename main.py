@@ -53,7 +53,7 @@ class Game:
 
     def run(self, m=2):
         self.new_game(m)
-        pg.mixer.music.load('res/music/shvatca.mp3')
+        pg.mixer.music.load('res/shvatca.mp3')
         pg.mixer.music.play(-1)
         while True:
             self.check_events()
