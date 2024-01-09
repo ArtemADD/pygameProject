@@ -43,6 +43,7 @@ class Game:
         # self.screen.fill('black')
         self.object_renderer.draw()
         self.weapon.draw()
+        pg.draw.circle(self.screen, 'white', (HALF_WIDTH, HALF_HEIGHT), 1)
         # self.map.draw()
         # self.player.draw()
 

@@ -25,9 +25,9 @@ class SpritObject:
 
         image = pg.transform.scale(self.image, (proj_width, proj_height))
 
-        self.sprite_half_widht = proj_width // 2
+        self.sprite_half_width = proj_width // 2
         height_shift = proj_height * self.SPRITE_HEIGHT_SHIFT
-        pos = self.screen_x - self.sprite_half_widht, HALF_HEIGHT - proj_height // 2 + height_shift
+        pos = self.screen_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 2 + height_shift
         if 10 < self.norm_dist < 18:
             image.set_alpha(int(255 / (0.1 + self.norm_dist ** 20 * 0.00000000000000000000003)))
         if self.norm_dist < 18:
