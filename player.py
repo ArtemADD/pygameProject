@@ -8,16 +8,23 @@ class Player:
         self.game = game
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
+        self.shot = False
+
+    def single_fire_event(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if event.button == 1 and not self.shot and not self.game.weapon.reloading:
+                self.shot = True
+                self.game.weapon.reloading = True
 
     def movement(self):
+        keys = pg.key.get_pressed()
         sin_a = math.sin(self.angle)
         cos_a = math.cos(self.angle)
         dx, dy = 0, 0
-        speed = PLAYER_SPEED * self.game.delta_time
+        speed = PLAYER_SPEED * self.game.delta_time * 1.5 if keys[pg.K_LSHIFT] else PLAYER_SPEED * self.game.delta_time
         speed_sin = speed * sin_a
         speed_cos = speed * cos_a
 
-        keys = pg.key.get_pressed()
         if keys[pg.K_w]:
             dx += speed_cos
             dy += speed_sin
@@ -48,6 +55,7 @@ class Player:
         pg.draw.circle(self.game.screen, 'green', (self.x * 100, self.y * 100), 15)
 
     def mouse_control(self):
+        # pass
         mx, my = pg.mouse.get_pos()
         if mx < MOUSE_BORDER_LEFT or mx > MOUSE_BORDER_RIGHT:
             pg.mouse.set_pos([HALF_WIDTH, HALF_HEIGHT])

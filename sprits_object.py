@@ -6,7 +6,7 @@ from setting import *
 
 
 class SpritObject:
-    def __init__(self, game, path='res/sprite/table.png', pos=(10.5, 9.5), scale=0.5, shift=0.7):
+    def __init__(self, game, path='res/sprite/table.png', pos=(0, 0), scale=0.5, shift=0.7):
         self.game = game
         self.player = game.player
         self.x, self.y = pos
@@ -25,11 +25,13 @@ class SpritObject:
 
         image = pg.transform.scale(self.image, (proj_width, proj_height))
 
-        self.sprite_half_widht = proj_width // 2
+        self.sprite_half_width = proj_width // 2
         height_shift = proj_height * self.SPRITE_HEIGHT_SHIFT
-        pos = self.screen_x - self.sprite_half_widht, HALF_HEIGHT - proj_height // 2 + height_shift
-        image.set_alpha(int(255 / (0.1 + self.norm_dist ** 5 * 0.00005)))
-        self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
+        pos = self.screen_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 2 + height_shift
+        if 10 < self.norm_dist < 18:
+            image.set_alpha(int(255 / (0.1 + self.norm_dist ** 20 * 0.00000000000000000000003)))
+        if self.norm_dist < 18:
+            self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
 
     def get_sprite(self):
         dx = self.x - self.player.x
@@ -51,10 +53,14 @@ class SpritObject:
     def update(self):
         self.get_sprite()
 
+    def set_pos(self, x, y):
+        self.x = x
+        self.y = y
+
 
 class AnimatedSprite(SpritObject):
     def __init__(self, game, path='res/sprite/animation_sprit/0.png',
-                 pos=(10.5, 9.5), scale=0.5, shift=0.7, animation_time=120):
+                 pos=(0, 0), scale=0.5, shift=0.7, animation_time=120):
         super().__init__(game, path, pos, scale, shift)
         self.animation_time = animation_time
         self.path = path.rsplit('/', 1)[0]

@@ -31,7 +31,8 @@ class RayCasting:
                 )
                 wall_column = pg.transform.scale(wall_column, (SCALE, HEIGHT))
                 wall_pos = (ray * SCALE, 0)
-            wall_column.set_alpha(int(255 / (0.1 + depth ** 5 * 0.00002)))
+            if 13 < depth < 25:
+                wall_column.set_alpha(int(255 / (0.1 + depth ** 20 * 0.00000000000000000000003)))
             self.objects_to_render.append((depth, wall_column, wall_pos))
 
     def ray_cast(self):
