@@ -50,27 +50,67 @@ class Game:
     def check_events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
+                end()
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                # pg.mouse.set_visible(True)
-                # return ocno.runsc()
-                pg.quit()
-                sys.exit()
+                pg.mouse.set_visible(True)
+                return self.paus()
+                # pg.quit()
+                # sys.exit()
             self.player.single_fire_event(event)
 
     def run(self, m=1):
         self.new_game(m)
-        # pg.mixer.music.load('res/shvatca.mp3')
-        # pg.mixer.music.play(-1)
+        pg.mixer.music.load('res/music/shvatca.mp3')
+        pg.mixer.music.play(-1)
         while True:
             self.check_events()
             self.update()
             self.draw()
 
+    def paus(self):
+        pg.mixer.music.load('res/music/shvatca.mp3')
+        pg.mixer.music.play(-1)
+        self.pauselement()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    end()
+                    pg.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    if self.ex.is_hovered:
+                        return ocno.runsc()
+                    if self.restarte.is_hovered:
+                        pg.mouse.set_visible(False)
+                        return True
+                if event.type == pygame.MOUSEMOTION:
+                    self.ex.check_hover(event.pos)
+                    self.ex.music(event)
+                    self.restarte.check_hover(event.pos)
+                    self.restarte.music(event)
+            self.screen.blit(self.fon, (0, 0))
+            hiro.draw(self.screen)
+            hiro.update(self.screen)
+            pygame.display.flip()
+            self.clock.tick(60)
+
+
+    def pauselement(self):
+        image = pygame.image.load('res/background/fonpaus.jpg')
+        self.fon = pygame.transform.scale(image, (1600, 900))
+        self.ex = Button(550, 300, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
+                            'res/icon/cnopcapos.png',
+                            'res/music/vhod.mp3', hiro)
+        self.restarte = Button(550, 450, 400, 100, 'Вернуться к игре', 'res/icon/cnopcado.png',
+                         'res/icon/cnopcapos.png',
+                         'res/music/vhod.mp3', hiro)
+
+
 
 if __name__ == '__main__':
     game = Game()
-    game.run()
-    # ocno = Open(game)
-    # ocno.runsc()
+    # game.run()
+    ocno = Open(game)
+    ocno.runsc()
