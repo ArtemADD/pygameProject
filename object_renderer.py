@@ -12,10 +12,14 @@ class ObjectRenderer:
         self.bg_1 = self.get_texture('res/background/bg_1.png', (WIDTH, HALF_HEIGHT))
         self.bg_2 = self.get_texture('res/background/bg_2_2.png', (WIDTH, HALF_HEIGHT))
         self.flor1 = self.get_texture('res/background/flor1.png', (WIDTH, HALF_HEIGHT))
+        self.blood_screen = self.get_texture('res/damage/blood_screen.png', RES)
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
+
+    def player_damage(self):
+        self.screen.blit(self.blood_screen, (0, 0))
 
     def draw_background(self):
         # self.sky_offset = (self.sky_offset + 4.5 * self.game.player.rel) % WIDTH
