@@ -55,7 +55,7 @@ class Open:
                     if self.ex.is_hovered:
                         self.terminate()
                     if self.record.is_hovered:
-                        pass
+                        self.recordy()
                     if self.vhod.is_hovered:
                         return self.runav()
                     if self.gromcoste.is_hovered:
@@ -326,3 +326,38 @@ class Open:
             scin.update(self.game.screen)
             pg.display.flip()
             clock.tick(60)
+
+    def recordy(self):
+        clock = pg.time.Clock()
+        self.exeee = Button(170, 600, 300, 80, 'Вернуться', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                           'res/music/vhod.mp3',
+                           record)
+        pg.mixer.music.load('res/music/fonscin.mp3')
+        pg.mixer.music.play(-1)
+        pg.mixer.music.set_volume(self.zvuc)
+        image2 = pygame.image.load('res/background/fon2.jpg')
+        self.fon2 = pygame.transform.scale(image2, (1600, 900))
+        self.recorde()
+        while True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.terminate()
+                if event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                    if self.exeee.is_hovered:
+                        return self.runsc()
+                if event.type == pygame.MOUSEMOTION:
+                    self.exeee.check_hover(event.pos)
+                    self.exeee.music(event)
+            self.game.screen.blit(self.fon2, (0, 0))
+            record.draw(self.game.screen)
+            record.update(self.game.screen)
+            pg.display.flip()
+            clock.tick(60)
+
+    def recorde(self):
+        t = recorda()
+        t.sort(key=lambda i: i[1], reverse=True)
+        for i in range(5):
+            Button(600, 100+120*i, 400, 100, 'Игрок:' + str(t[i][0])+' Рекорд: '+str(t[i][1]), 'res/icon/cnopcapos.png',
+                            'res/icon/cnopcado.png',
+                            'res/music/vhod.mp3', record)

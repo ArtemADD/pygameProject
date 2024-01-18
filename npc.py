@@ -80,6 +80,7 @@ class NPC(AnimatedSprite):
     def check_health(self):
         if self.health < 1:
             self.alive = False
+            self.game.player.rezult += 1
 
     def run_logic(self):
         if self.alive:
