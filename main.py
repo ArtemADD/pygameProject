@@ -137,3 +137,4 @@ if __name__ == '__main__':
     # game.run()
     ocno = Open(game)
     ocno.runsc()
+# gg
