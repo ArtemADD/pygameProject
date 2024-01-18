@@ -26,6 +26,7 @@ class Game:
         pg.time.set_timer(self.global_event, 1000)
         self.num = None
         self.start = False
+        self.end = False
 
     def new_game(self, m):
         self.start = True
@@ -36,7 +37,8 @@ class Game:
         self.raycasting = RayCasting(self, self.num)
         self.pathfinding = PathFinding(self)
         self.object_handler = ObjectHandler(self)
-        self.weapon_bow = Weapon(self, 30, 20, scale=2.4,
+        # оружие
+        self.weapon_bow = Weapon(self, 35, 20, scale=2.4,
                                  sounds=[self.sound.bowstring, self.sound.shot_bow])
         self.weapon_sword = Weapon(self, 70, 3, path='res/sprite/weapon/sword/sword_0.png', scale=0.75,
                                    type_w='sword')
@@ -63,7 +65,7 @@ class Game:
         self.global_trigger = False
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                end()
+                # end()
                 pg.quit()
                 sys.exit()
             elif event.type == self.global_event:
@@ -74,6 +76,9 @@ class Game:
                 elif event.key == pg.K_2 and self.start:
                     self.weapon = self.weapon_bow
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                pg.mouse.set_visible(True)
+                return self.paus()
+            if self.end:
                 pg.mouse.set_visible(True)
                 return self.paus()
                 # pg.quit()
@@ -96,10 +101,10 @@ class Game:
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    end()
+                    # end()
                     pg.quit()
                     sys.exit()
-                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     if self.ex.is_hovered:
                         return ocno.runsc()
                     if self.restarte.is_hovered:

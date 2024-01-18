@@ -43,6 +43,7 @@ def vhodifadm(login, parol):
     else:
         return False, 'Введите логин длинной от 1 символа'
 
+
 def scina():
     connection = sqlite3.connect('plaeyrs.db')
     cursor = connection.cursor()
@@ -50,6 +51,7 @@ def scina():
     # print(s)
     connection.close()
     return s[0]
+
 
 def update(icon, slova):
     connection = sqlite3.connect('plaeyrs.db')
@@ -61,12 +63,10 @@ def update(icon, slova):
     connection.commit()
     connection.close()
 
+
 def end():
     connection = sqlite3.connect('plaeyrs.db')
     cursor = connection.cursor()
     cursor.execute("UPDATE player SET activ = '0'")
     connection.commit()
     connection.close()
-
-
-

@@ -10,13 +10,20 @@ class Player:
         self.angle = PLAYER_ANGLE
         self.rel = pg.mouse.get_rel()[0]
         self.shot = False
+        # здоровье
         self.health = PLAYER_MAX_HEALTH
         self.health_recovery_delay = 700
         self.time_prev = pg.time.get_ticks()
 
+    def check_game_over(self):
+        if self.health < 1:
+            self.game.end = True
+            # self.game.object_renderer.game_over()
+
     def recover_health(self):
         if self.check_health_recovery_delay() and self.health < PLAYER_MAX_HEALTH:
             self.health += 1
+        print(self.health)
 
     def check_health_recovery_delay(self):
         time_now = pg.time.get_ticks()
@@ -27,6 +34,7 @@ class Player:
     def get_damage(self, damage):
         self.health -= damage
         self.game.object_renderer.player_damage()
+        self.check_game_over()
 
     def single_fire_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
