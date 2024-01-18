@@ -14,13 +14,12 @@ class Open:
     def __init__(self, game):
         self.game = game
         pg.mouse.set_visible(True)
-        image = pygame.image.load('res/fon.jpg')
+        image = pygame.image.load('res/background/fon.jpg')
         self.fon = pygame.transform.scale(image, (1600, 900))
-        image = pygame.image.load('res/name.png')
+        image = pygame.image.load('res/icon/name.png')
         self.name = pygame.transform.scale(image, (600, 100))
         self.flag2 = True
         self.zvuc = 0.1
-
         self.but()
 
     def terminate(self):
@@ -32,7 +31,7 @@ class Open:
         self.game.run(mini_map)
 
     def runsc(self):
-        pg.mixer.music.load('res/fon.mp3')
+        pg.mixer.music.load('res/music/fon.mp3')
         pg.mixer.music.play(-1)
         pg.mixer.music.set_volume(self.zvuc)
         clock = pygame.time.Clock()
@@ -45,11 +44,11 @@ class Open:
                     if self.pustn.is_hovered and self.login != '':
                         self.pustn.mus.stop()
                         pg.mouse.set_visible(False)
-                        return self.gamee(mini_map1)
+                        return self.gamee(1)
                     elif self.zamok.is_hovered and self.login != '':
                         self.zamok.mus.stop()
                         pg.mouse.set_visible(False)
-                        return self.gamee(mini_map2)
+                        return self.gamee(2)
                     if self.login != '':
                         if self.acaunt.is_hovered:
                             return self.Avatar()
@@ -60,26 +59,26 @@ class Open:
                     if self.vhod.is_hovered:
                         return self.runav()
                     if self.gromcoste.is_hovered:
-                        self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
+                        self.gromcost.image = pg.transform.scale(pg.image.load('res/icon/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
                         self.zvuc = (event.pos[0] - 1250) // 3 / 1000
                         pg.mixer.music.set_volume(self.zvuc)
                         for item in Buttons:
                             item.grm(self.zvuc + 0.2)
                     if self.vc.is_hovered:
                         if mus:
-                            self.vc.image_do = pg.transform.scale(pg.image.load('res/vcl.png').convert_alpha(), (50, 50))
-                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/vcl2.png').convert_alpha(), (50, 50))
-                            self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(),
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vcl.png').convert_alpha(), (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcl2.png').convert_alpha(), (50, 50))
+                            self.gromcost.image = pg.transform.scale(pg.image.load('res/icon/reg.png').convert_alpha(),
                                                                      (0, 50))
                             pg.mixer.music.set_volume(0)
                             self.zvuc = 0
                             for item in Buttons:
                                 item.grm(0)
                         else:
-                            self.vc.image_do = pg.transform.scale(pg.image.load('res/vc.png').convert_alpha(), (50, 50))
-                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/vcn.png').convert_alpha(),
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vc.png').convert_alpha(), (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcn.png').convert_alpha(),
                                                                      (50, 50))
-                            self.gromcost.image = pg.transform.scale(pg.image.load('res/reg.png').convert_alpha(),
+                            self.gromcost.image = pg.transform.scale(pg.image.load('res/icon/reg.png').convert_alpha(),
                                                                      (300, 50))
                             self.zvuc = 0.1
                             pg.mixer.music.set_volume(self.zvuc)
@@ -97,24 +96,35 @@ class Open:
 
     def but(self):
         self.login = ''
-        self.pustn = Button(100, 100, 400, 100, 'Египетские пирамиды', 'res/cnopcado.png', 'res/cnopcapos.png',
-                            'res/vhod.mp3')
-        self.zamok = Button(1100, 100, 400, 100, 'Заброшенный замок', 'res/cnopcado.png', 'res/cnopcapos.png',
-                            'res/vhod.mp3')
-        self.ex = Button(600, 600, 400, 80, 'Выход', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3')
-        self.record = Button(600, 400, 400, 80, 'Рекорды', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3')
-        self.vhod = Button(600, 500, 400, 80, 'Вход', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3')
-        self.gromcoste = Button(1250, 800, 300, 50, '', 'res/gromcost.png', 'res/gromcost.png', 'res/vhod.mp3')
-        self.vc = Button(1190, 803, 50, 50, '', 'res/vc.png', 'res/vcn.png', 'res/vhod.mp3')
+        self.pustn = Button(100, 100, 400, 100, 'Египетские пирамиды', 'res/icon/cnopcado.png',
+                            'res/icon/cnopcapos.png',
+                            'res/music/vhod.mp3')
+        self.zamok = Button(1100, 100, 400, 100, 'Заброшенный замок', 'res/icon/cnopcado.png',
+                            'res/icon/cnopcapos.png',
+                            'res/music/vhod.mp3')
+        self.ex = Button(600, 600, 400, 80, 'Выход', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                         'res/music/vhod.mp3')
+        self.record = Button(600, 400, 400, 80, 'Рекорды', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                             'res/music/vhod.mp3')
+        self.vhod = Button(600, 500, 400, 80, 'Вход', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                           'res/music/vhod.mp3')
+        self.gromcoste = Button(1250, 800, 300, 50, '', 'res/icon/gromcost.png', 'res/icon/gromcost.png',
+                                'res/music/vhod.mp3')
+        self.vc = Button(1190, 803, 50, 50, '', 'res/icon/vc.png', 'res/icon/vcn.png', 'res/music/vhod.mp3')
         self.gromcost = Gromcost(self.game.screen, 300)
-        self.exe = Button(600, 650, 400, 80, 'Вернуться', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+        self.exe = Button(600, 650, 400, 80, 'Вернуться', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                          'res/music/vhod.mp3', avt)
 
-        self.save = Button(600, 550, 400, 80, 'Войти', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', avt)
+        self.save = Button(600, 550, 400, 80, 'Войти', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                           'res/music/vhod.mp3', avt)
 
-        self.vvodlo = Button(300, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
-        self.vvodpar = Button(900, 350, 400, 80, '', 'res/vvodlog.png', 'res/vvodlog.png', 'res/vhod.mp3', avt)
+        self.vvodlo = Button(300, 350, 400, 80, '', 'res/icon/vvodlog.png', 'res/icon/vvodlog.png', 'res/music/vhod.mp3',
+                             avt)
+        self.vvodpar = Button(900, 350, 400, 80, '', 'res/icon/vvodlog.png', 'res/icon/vvodlog.png',
+                              'res/music/vhod.mp3', avt)
         self.font = pygame.font.SysFont('arial', 50)
-        self.rama = Button(165, 155, 310, 310, '', 'res/scinplaer.png', 'res/scinplaer.png', 'res/vhod.mp3', scin)
+        self.rama = Button(165, 155, 310, 310, '', 'res/icon/scinplaer.png', 'res/icon/scinplaer.png',
+                           'res/music/vhod.mp3', scin)
 
     def clic(self, event):
         self.zamok.check_hover(event.pos)
@@ -154,8 +164,8 @@ class Open:
                         if rezalt:
                             if self.login == '':
                                 self.login = login
-                                self.acaunt = Button(600, 300, 400, 80, self.login, 'res/login.png', 'res/login2.png',
-                                                   'res/vhod.mp3')
+                                self.acaunt = Button(600, 300, 400, 80, self.login, 'res/icon/login.png', 'res/icon/login2.png',
+                                                   'res/music/vhod.mp3')
                                 self.scinplaer = Button(170, 150, 300, 300, '', scina()[0], scina()[0], scina()[1], scin)
                             else:
                                 self.login = login
@@ -213,23 +223,26 @@ class Open:
 
     def butscin(self):
 
-        self.exee = Button(170, 600, 300, 80, 'Вернуться', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3',
+        self.exee = Button(170, 600, 300, 80, 'Вернуться', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                           'res/music/vhod.mp3',
                            scin)
-        self.savee = Button(170, 500, 300, 80, 'Сохранить', 'res/menuvhod.png', 'res/menuvhod2.png', 'res/vhod.mp3', scin)
+        self.savee = Button(170, 500, 300, 80, 'Сохранить', 'res/icon/menuvhod.png', 'res/icon/menuvhod2.png',
+                            'res/music/vhod.mp3', scin)
 
-        self.rama2 = Button(490, 155, 990, 660, '', 'res/opisanie.png', 'res/opisanie.png', 'res/vhod.mp3', scin)
-        self.scin1 = Button(500, 165, 300, 300, '', 'res/FlareFemaleHero1.png', 'res/FlareFemaleHero1.png',
-                            'res/женский голос больно.mp3', scin)
-        self.scin2 = Button(820, 165, 300, 300, '', 'res/FlareFemaleHero2.png', 'res/FlareFemaleHero2.png',
-                            'res/ДевушкаЭльф.mp3', scin)
-        self.scin3 = Button(1140, 165, 300, 300, '', 'res/FlareFemaleHero3.png', 'res/FlareFemaleHero3.png',
-                            'res/женские лучшие.mp3', scin)
-        self.scin4 = Button(500, 485, 300, 300, '', 'res/FlareMaleHero1.png', 'res/FlareMaleHero1.png',
-                            'res/Мужской вставай.mp3', scin)
-        self.scin5 = Button(820, 485, 300, 300, '', 'res/FlareMaleHero2.png', 'res/FlareMaleHero2.png',
-                            'res/Грозный мужчина.mp3', scin)
-        self.scin6 = Button(1140, 485, 300, 300, '', 'res/FlareMaleHero3.png', 'res/FlareMaleHero3.png',
-                            'res/Муж голос добыча.mp3', scin)
+        self.rama2 = Button(490, 155, 990, 660, '', 'res/icon/opisanie.png', 'res/icon/opisanie.png',
+                            'res/music/vhod.mp3', scin)
+        self.scin1 = Button(500, 165, 300, 300, '', 'res/icon/FlareFemaleHero1.png', 'res/icon/FlareFemaleHero1.png',
+                            'res/music/женский голос больно.mp3', scin)
+        self.scin2 = Button(820, 165, 300, 300, '', 'res/icon/FlareFemaleHero2.png', 'res/icon/FlareFemaleHero2.png',
+                            'res/music/ДевушкаЭльф.mp3', scin)
+        self.scin3 = Button(1140, 165, 300, 300, '', 'res/icon/FlareFemaleHero3.png', 'res/icon/FlareFemaleHero3.png',
+                            'res/music/женские лучшие.mp3', scin)
+        self.scin4 = Button(500, 485, 300, 300, '', 'res/icon/FlareMaleHero1.png', 'res/icon/FlareMaleHero1.png',
+                            'res/music/Мужской вставай.mp3', scin)
+        self.scin5 = Button(820, 485, 300, 300, '', 'res/icon/FlareMaleHero2.png', 'res/icon/FlareMaleHero2.png',
+                            'res/music/Грозный мужчина.mp3', scin)
+        self.scin6 = Button(1140, 485, 300, 300, '', 'res/icon/FlareMaleHero3.png', 'res/icon/FlareMaleHero3.png',
+                            'res/music/Муж голос добыча.mp3', scin)
 
     def scinif(self, event):
         if self.exee.is_hovered:
@@ -295,10 +308,10 @@ class Open:
             self.butscin()
             self.flag2 = False
         clock = pg.time.Clock()
-        pg.mixer.music.load('res/fonscin.mp3')
+        pg.mixer.music.load('res/music/fonscin.mp3')
         pg.mixer.music.play(-1)
         pg.mixer.music.set_volume(self.zvuc)
-        image2 = pygame.image.load('res/fon2.jpg')
+        image2 = pygame.image.load('res/background/fon2.jpg')
         self.fon2 = pygame.transform.scale(image2, (1600, 900))
         while True:
             for event in pg.event.get():
