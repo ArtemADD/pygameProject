@@ -12,6 +12,7 @@ from weapon import *
 from sound import *
 from pathfinding import *
 from sound import *
+from gromcost import HP
 
 
 class Game:
@@ -58,6 +59,8 @@ class Game:
         self.object_renderer.draw()
         self.weapon.draw()
         pg.draw.circle(self.screen, 'white', (HALF_WIDTH, HALF_HEIGHT), 1)
+
+
         # self.map.draw()
         # self.player.draw()
 
@@ -72,21 +75,40 @@ class Game:
                 self.global_trigger = True
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_1 and self.start:
+                    self.cinzhal.is_hovered = True
+                    self.lyc.is_hovered = False
                     self.weapon = self.weapon_sword
                 elif event.key == pg.K_2 and self.start:
+                    self.cinzhal.is_hovered = False
+                    self.lyc.is_hovered = True
                     self.weapon = self.weapon_bow
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 pg.mouse.set_visible(True)
                 return self.paus()
             if self.end:
                 pg.mouse.set_visible(True)
-                return self.paus()
-                # pg.quit()
+                self.rezultat()
+                self.player.health = PLAYER_MAX_HEALTH
+                self.end = False
+                self.player.rezult = 0
+                return ocno.runsc()
                 # sys.exit()
             self.player.single_fire_event(event)
+        ocnova.update(self.screen)
+        ocnova.draw(self.screen)
+
+    def element(self):
+        self.cinzhal = Button(700, 800, 100, 100, '', 'res/icon/кинжал.png', 'res/icon/кинжал2.png', 'res/music/vhod.mp3', ocnova)
+        self.lyc = Button(800, 800, 100, 100, '', 'res/icon/лук.png', 'res/icon/лук2.png', 'res/music/vhod.mp3', ocnova)
+        self.cinzhal.is_hovered = True
+        self.lyc.is_hovered = False
+        self.gromcoste = Button(1250, 800, 300, 50, '', 'res/icon/gromcost.png', 'res/icon/gromcost.png',
+                                'res/music/vhod.mp3', ocnova)
+        self.gromcost = HP(self.screen, 300)
 
     def run(self, m=1):
         self.new_game(m)
+        self.element()
         pg.mixer.music.load('res/music/shvatca.mp3')
         pg.mixer.music.play(-1)
         while True:
@@ -101,7 +123,7 @@ class Game:
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    # end()
+                    ende()
                     pg.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -124,12 +146,48 @@ class Game:
     def pauselement(self):
         image = pygame.image.load('res/background/fonpaus.jpg')
         self.fon = pygame.transform.scale(image, (1600, 900))
-        self.ex = Button(550, 300, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
+        self.ex = Button(600, 300, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
                             'res/icon/cnopcapos.png',
                             'res/music/vhod.mp3', hiro)
-        self.restarte = Button(550, 450, 400, 100, 'Вернуться к игре', 'res/icon/cnopcado.png',
+        self.restarte = Button(600, 450, 400, 100, 'Вернуться к игре', 'res/icon/cnopcado.png',
                          'res/icon/cnopcapos.png',
                          'res/music/vhod.mp3', hiro)
+
+    def rezultat(self):
+        pg.mixer.music.load('res/music/shvatca.mp3')
+        pg.mixer.music.play(-1)
+        self.endlement()
+        self.restartet.text = str(self.player.rezult * 100)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    ende()
+                    pg.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    if self.exet.is_hovered:
+                        for i in rezalt:
+                            i.kill()
+                            rezul(self.player.rezult * 100)
+                        return True
+                if event.type == pygame.MOUSEMOTION:
+                    self.exet.check_hover(event.pos)
+                    self.exet.music(event)
+            self.screen.blit(self.fon, (0, 0))
+            rezalt.draw(self.screen)
+            rezalt.update(self.screen)
+            pygame.display.flip()
+            self.clock.tick(60)
+
+    def endlement(self):
+        image = pygame.image.load('res/background/fonpaus.jpg')
+        self.fon = pygame.transform.scale(image, (1600, 900))
+        self.exet = Button(600, 450, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
+                            'res/icon/cnopcapos.png',
+                            'res/music/vhod.mp3', rezalt)
+        self.restartet = Button(600, 300, 400, 100, '', 'res/icon/cnopcado.png',
+                         'res/icon/cnopcapos.png',
+                         'res/music/vhod.mp3', rezalt)
 
 
 if __name__ == '__main__':
@@ -137,4 +195,3 @@ if __name__ == '__main__':
     # game.run()
     ocno = Open(game)
     ocno.runsc()
-# gg

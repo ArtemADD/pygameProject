@@ -19,6 +19,7 @@ def vhodifadm(login, parol):
     ''')
     le = len(cursor.execute("""SELECT name FROM player""").fetchall())
     Flag1 = False
+    cursor.execute("UPDATE player SET activ = '0'")
     if login != '':
         if parol != '':
             lew = len(cursor.execute("""SELECT name FROM player""").fetchall())
@@ -27,7 +28,9 @@ def vhodifadm(login, parol):
             print(s, login)
             if str(login) not in s:
                 cursor.execute('INSERT INTO player(ID, name, parol, activ, icon, slova, record) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                               (lew + 1, str(login), str(parol), '1', 'res/icon/FlareMaleHero3.png', 'res/music/Муж голос добыча.mp3', 0))
+                               (lew + 1, str(login), str(parol), '0', 'res/icon/FlareMaleHero3.png', 'res/music/Муж голос добыча.mp3', 0))
+                cursor.execute("UPDATE player SET  activ = '1' WHERE name=? AND parol=?;",
+                               (login, parol))
                 connection.commit()
                 return True, login
             elif str(parol) in [i[0] for i in cursor.execute("""SELECT parol FROM player WHERE name = ?""", (login,)).fetchall()]:
@@ -64,9 +67,26 @@ def update(icon, slova):
     connection.close()
 
 
-def end():
+def ende():
     connection = sqlite3.connect('plaeyrs.db')
     cursor = connection.cursor()
     cursor.execute("UPDATE player SET activ = '0'")
     connection.commit()
     connection.close()
+
+def rezul(rezalt):
+    connection = sqlite3.connect('plaeyrs.db')
+    cursor = connection.cursor()
+    if rezalt > int([i for i in cursor.execute("""SELECT record FROM player WHERE activ = '1'""").fetchall()][0][0]):
+        cursor.execute("UPDATE player SET record = ? WHERE activ = '1'", (rezalt,))
+    connection.commit()
+    connection.close()
+
+def recorda():
+    connection = sqlite3.connect('plaeyrs.db')
+    cursor = connection.cursor()
+    t = cursor.execute("""SELECT name, record FROM player""").fetchall()
+    connection.commit()
+    connection.close()
+    return t
+

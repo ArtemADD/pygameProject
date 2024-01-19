@@ -10,6 +10,7 @@ class Player:
         self.angle = PLAYER_ANGLE
         self.rel = pg.mouse.get_rel()[0]
         self.shot = False
+        self.rezult = 0
         # здоровье
         self.health = PLAYER_MAX_HEALTH
         self.health_recovery_delay = 700
@@ -33,6 +34,9 @@ class Player:
 
     def get_damage(self, damage):
         self.health -= damage
+        if self.health > 1:
+            self.game.gromcost.image = pg.transform.scale(pg.image.load('res/icon/hp.png').convert_alpha(),
+                                                     (self.health * 3, 50))
         self.game.object_renderer.player_damage()
         self.check_game_over()
 
