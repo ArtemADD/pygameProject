@@ -24,7 +24,7 @@ class Game:
         self.delta_time = 1
         self.global_trigger = False
         self.global_event = pg.USEREVENT + 0
-        pg.time.set_timer(self.global_event, 1000)
+        pg.time.set_timer(self.global_event, 500)
         self.num = None
         self.start = False
         self.end = False
@@ -59,8 +59,6 @@ class Game:
         self.object_renderer.draw()
         self.weapon.draw()
         pg.draw.circle(self.screen, 'white', (HALF_WIDTH, HALF_HEIGHT), 1)
-
-
         # self.map.draw()
         # self.player.draw()
 
@@ -195,3 +193,4 @@ if __name__ == '__main__':
     # game.run()
     ocno = Open(game)
     ocno.runsc()
+# gg

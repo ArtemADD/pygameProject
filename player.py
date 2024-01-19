@@ -24,6 +24,8 @@ class Player:
     def recover_health(self):
         if self.check_health_recovery_delay() and self.health < PLAYER_MAX_HEALTH:
             self.health += 1
+            self.game.gromcost.image = pg.transform.scale(pg.image.load('res/icon/hp.png').convert_alpha(),
+                                                     (self.health * 3, 50))
         print(self.health)
 
     def check_health_recovery_delay(self):
