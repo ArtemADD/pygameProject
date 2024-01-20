@@ -21,7 +21,6 @@ _ = False
 mini_map1 = load_map('map1.txt')
 mini_map2 = load_map('map2.txt')
 m_m3 = load_map('map3.txt')
-map_sprites = {}
 
 
 class Map:
@@ -32,18 +31,19 @@ class Map:
             self.mini_map = m_m3
         elif m == 2:
             self.mini_map = mini_map2
-        else:
+        elif m == 1:
             self.mini_map = mini_map1
         self.world_map = {}
+        self.map_sprites = {}
         self.get_map()
 
     def get_map(self):
         for j, row in enumerate(self.mini_map):
             for i, val in enumerate(row):
-                if val == 1 or val == 2:
+                if val == 1 or val == 2 or val == 3:
                     self.world_map[(i, j)] = val
                 elif val:
-                    map_sprites[(i + 0.5, j + 0.5)] = val
+                    self.map_sprites[(i + 0.5, j + 0.5)] = val
 
     def draw(self):
         [pg.draw.rect(self.game.screen, 'darkgray', (pos[0] * 100, pos[1] * 100, 100, 100), 2)

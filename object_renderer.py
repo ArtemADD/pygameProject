@@ -12,6 +12,7 @@ class ObjectRenderer:
         self.bg_1 = self.get_texture('res/background/bg_1.png', (WIDTH, HALF_HEIGHT))
         self.bg_2 = self.get_texture('res/background/bg_2_2.png', (WIDTH, HALF_HEIGHT))
         self.flor1 = self.get_texture('res/background/flor1.png', (WIDTH, HALF_HEIGHT))
+        self.flor2 = self.get_texture('res/background/flor2.png', (WIDTH, HALF_HEIGHT))
         self.blood_screen = self.get_texture('res/damage/blood_screen.png', RES)
 
     def draw(self):
@@ -29,7 +30,7 @@ class ObjectRenderer:
         # pg.draw.rect(self.screen, '#6a5f31', (0, HALF_HEIGHT, WIDTH, HALF_HEIGHT))
         if self.game.map.m == 2:
             bg = self.bg_2
-            fl = self.flor1
+            fl = self.flor2
         else:
             bg = self.bg_1
             fl = self.flor1
@@ -52,4 +53,5 @@ class ObjectRenderer:
         return {
                 1: self.get_texture('res/textures/wall1.png'),
                 2: self.get_texture('res/textures/stone wall 6.png'),
+                3: self.get_texture('res/textures/wall3.png')
         }

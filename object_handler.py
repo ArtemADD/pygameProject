@@ -3,6 +3,9 @@ from npc import *
 from map import *
 from math import *
 
+SPAWN_ZONE_MAP1 = [(6, 6), (6, 23), (6, 40), (23, 40), (40, 6), (40, 23), (40, 40)]
+SPAWN_ZONE_MAP2 = [(6, 23), (23, 23), (40, 23), (23, 6)]
+
 
 class ObjectHandler:
     def __init__(self, game):
@@ -12,7 +15,7 @@ class ObjectHandler:
         self.static_sprit_path = 'res/sprite/'
         self.anim_sprit_path = 'res/sprite/animation_sprit/'
         self.npc_positions = {}
-        self.spawn_zone = [(6, 6), (6, 23), (6, 40), (23, 6), (23, 40), (40, 6), (40, 23), (40, 40)]
+        self.spawn_zone = SPAWN_ZONE_MAP1 if self.game.map.m == 1 else SPAWN_ZONE_MAP2
         # self.sprites = self.load_sprites()
         self.map_sprit()
 
@@ -22,10 +25,10 @@ class ObjectHandler:
         self.npc_positions = {}
 
         # добавление спрайтов с карты
-        for pos in map_sprites.keys():
-            if map_sprites[pos] == 3:
+        for pos in self.game.map.map_sprites.keys():
+            if self.game.map.map_sprites[pos] == 5:
                 sp = AnimatedSprite(self.game, pos=pos, scale=1.25, shift=-0.05)
-            add_sprite(sp)
+                add_sprite(sp)
 
         # добавление врагов
         self.spawn_npc()

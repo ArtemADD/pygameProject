@@ -6,7 +6,7 @@ import math
 class Player:
     def __init__(self, game):
         self.game = game
-        self.x, self.y = PLAYER_POS
+        self.x, self.y = PLAYER_POS_MAP1 if self.game.map.m == 1 else PLAYER_POS_MAP2
         self.angle = PLAYER_ANGLE
         self.rel = pg.mouse.get_rel()[0]
         self.shot = False
@@ -22,11 +22,10 @@ class Player:
             # self.game.object_renderer.game_over()
 
     def recover_health(self):
-        if self.check_health_recovery_delay() and self.health < PLAYER_MAX_HEALTH:
+        if self.check_health_recovery_delay() and PLAYER_MAX_HEALTH > self.health > 0:
             self.health += 1
             self.game.gromcost.image = pg.transform.scale(pg.image.load('res/icon/hp.png').convert_alpha(),
-                                                     (self.health * 3, 50))
-        print(self.health)
+                                                          (self.health * 3, 50))
 
     def check_health_recovery_delay(self):
         time_now = pg.time.get_ticks()
@@ -36,7 +35,7 @@ class Player:
 
     def get_damage(self, damage):
         self.health -= damage
-        if self.health > 1:
+        if self.health >= 0:
             self.game.gromcost.image = pg.transform.scale(pg.image.load('res/icon/hp.png').convert_alpha(),
                                                      (self.health * 3, 50))
         self.game.object_renderer.player_damage()

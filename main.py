@@ -42,7 +42,7 @@ class Game:
         self.weapon_bow = Weapon(self, 35, 20, scale=2.4,
                                  sounds=[self.sound.bowstring, self.sound.shot_bow])
         self.weapon_sword = Weapon(self, 70, 3, path='res/sprite/weapon/sword/sword_0.png', scale=0.75,
-                                   type_w='sword')
+                                   type_w='sword', animation_time=190)
         self.weapon = self.weapon_sword
 
     def update(self):
@@ -72,14 +72,15 @@ class Game:
             elif event.type == self.global_event:
                 self.global_trigger = True
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_1 and self.start:
-                    self.cinzhal.is_hovered = True
-                    self.lyc.is_hovered = False
-                    self.weapon = self.weapon_sword
-                elif event.key == pg.K_2 and self.start:
-                    self.cinzhal.is_hovered = False
-                    self.lyc.is_hovered = True
-                    self.weapon = self.weapon_bow
+                if not self.weapon.reloading:
+                    if event.key == pg.K_1 and self.start:
+                        self.cinzhal.is_hovered = True
+                        self.lyc.is_hovered = False
+                        self.weapon = self.weapon_sword
+                    elif event.key == pg.K_2 and self.start:
+                        self.cinzhal.is_hovered = False
+                        self.lyc.is_hovered = True
+                        self.weapon = self.weapon_bow
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 pg.mouse.set_visible(True)
                 return self.paus()
