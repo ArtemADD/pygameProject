@@ -61,6 +61,18 @@ class Open:
                     if self.gromcoste.is_hovered:
                         self.gromcost.image = pg.transform.scale(pg.image.load('res/icon/reg.png').convert_alpha(), (event.pos[0] - 1250, 50))
                         self.zvuc = (event.pos[0] - 1250) // 3 / 1000
+                        if self.zvuc > 0.001:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vc.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcn.png').convert_alpha(),
+                                                                     (50, 50))
+                            mus = True
+                        else:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vcl.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcl2.png').convert_alpha(),
+                                                                     (50, 50))
+                            mus = False
                         pg.mixer.music.set_volume(self.zvuc)
                         for item in Buttons:
                             item.grm(self.zvuc + 0.2)

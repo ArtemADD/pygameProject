@@ -90,6 +90,8 @@ class Game:
                 self.player.health = PLAYER_MAX_HEALTH
                 self.end = False
                 self.player.rezult = 0
+                for i in ocnova:
+                    i.kill()
                 return ocno.runsc()
                 # sys.exit()
             self.player.single_fire_event(event)
@@ -103,7 +105,7 @@ class Game:
         self.lyc.is_hovered = False
         self.gromcoste = Button(1250, 800, 300, 50, '', 'res/icon/gromcost.png', 'res/icon/gromcost.png',
                                 'res/music/vhod.mp3', ocnova)
-        self.gromcost = HP(self.screen, 300)
+        self.hp = HP(self.screen, 300)
 
     def run(self, m=1):
         self.new_game(m)
@@ -119,7 +121,9 @@ class Game:
         pg.mixer.music.load('res/music/shvatca.mp3')
         pg.mixer.music.play(-1)
         self.pauselement()
+        mus = True
         while True:
+            self.screen.blit(self.fon, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     ende()
@@ -127,16 +131,57 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     if self.ex.is_hovered:
+                        for i in ocnova:
+                            i.kill()
                         return ocno.runsc()
                     if self.restarte.is_hovered:
                         pg.mouse.set_visible(False)
                         return True
+                    if self.gromcoste.is_hovered:
+                        self.zvuc = (event.pos[0] - 1250) // 3 / 1000
+                        if self.zvuc > 0.001:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vc.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcn.png').convert_alpha(),
+                                                                     (50, 50))
+                            mus = True
+                        else:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vcl.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcl2.png').convert_alpha(),
+                                                                     (50, 50))
+                            mus = False
+                        pg.mixer.music.set_volume(self.zvuc)
+                        for item in Buttons:
+                            item.grm(self.zvuc + 0.2)
+                    if self.vc.is_hovered:
+                        if mus:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vcl.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcl2.png').convert_alpha(),
+                                                                     (50, 50))
+                            pg.mixer.music.set_volume(0)
+                            self.zvuc = 0
+                            for item in Buttons:
+                                item.grm(0)
+                        else:
+                            self.vc.image_do = pg.transform.scale(pg.image.load('res/icon/vc.png').convert_alpha(),
+                                                                  (50, 50))
+                            self.vc.image_posle = pg.transform.scale(pg.image.load('res/icon/vcn.png').convert_alpha(),
+                                                                     (50, 50))
+                            self.zvuc = 0.1
+                            pg.mixer.music.set_volume(self.zvuc)
+                            for item in Buttons:
+                                item.grm(self.zvuc + 0.2)
+                        mus = not mus
                 if event.type == pygame.MOUSEMOTION:
                     self.ex.check_hover(event.pos)
+                    self.gromcoste.check_hover(event.pos)
+                    self.vc.check_hover(event.pos)
                     self.ex.music(event)
                     self.restarte.check_hover(event.pos)
                     self.restarte.music(event)
-            self.screen.blit(self.fon, (0, 0))
+
             hiro.draw(self.screen)
             hiro.update(self.screen)
             pygame.display.flip()
@@ -145,12 +190,13 @@ class Game:
     def pauselement(self):
         image = pygame.image.load('res/background/fonpaus.jpg')
         self.fon = pygame.transform.scale(image, (1600, 900))
-        self.ex = Button(600, 300, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
+        self.ex = Button(600, 450, 400, 100, 'Выйти в главное меню', 'res/icon/cnopcado.png',
                             'res/icon/cnopcapos.png',
                             'res/music/vhod.mp3', hiro)
-        self.restarte = Button(600, 450, 400, 100, 'Вернуться к игре', 'res/icon/cnopcado.png',
+        self.restarte = Button(600, 300, 400, 100, 'Вернуться к игре', 'res/icon/cnopcado.png',
                          'res/icon/cnopcapos.png',
                          'res/music/vhod.mp3', hiro)
+        self.vc = Button(1190, 803, 50, 50, '', 'res/icon/vc.png', 'res/icon/vcn.png', 'res/music/vhod.mp3', hiro)
 
     def rezultat(self):
         pg.mixer.music.load('res/music/shvatca.mp3')
