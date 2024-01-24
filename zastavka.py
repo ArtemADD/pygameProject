@@ -356,6 +356,8 @@ class Open:
                     self.terminate()
                 if event.type == pg.MOUSEBUTTONUP and event.button == 1:
                     if self.exeee.is_hovered:
+                        for i in record:
+                            i.kill()
                         return self.runsc()
                 if event.type == pygame.MOUSEMOTION:
                     self.exeee.check_hover(event.pos)
