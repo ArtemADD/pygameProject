@@ -10,6 +10,7 @@ rezalt = pg.sprite.Group()
 ocnova = pg.sprite.Group()
 record = pg.sprite.Group()
 
+
 class Button(pg.sprite.Sprite):
     def __init__(self, x, y, width, height, text, image_do, image_posle, mus, group=all_sprites):
         super().__init__(group, Buttons)

@@ -370,6 +370,5 @@ class Open:
         t = recorda()
         t.sort(key=lambda i: i[1], reverse=True)
         for i in range(5):
-            Button(600, 100+120*i, 400, 100, 'Игрок:' + str(t[i][0])+' Рекорд: '+str(t[i][1]), 'res/icon/cnopcapos.png',
-                            'res/icon/cnopcado.png',
-                            'res/music/vhod.mp3', record)
+            Button(600, 100 + 120 * i, 400, 100, 'Игрок:' + str(t[i][0])+' Рекорд: ' + str(t[i][1]),
+                   'res/icon/cnopcapos.png', 'res/icon/cnopcado.png', 'res/music/vhod.mp3', record)

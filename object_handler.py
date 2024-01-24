@@ -51,12 +51,26 @@ class ObjectHandler:
     def spawn_npc(self):
         pl_x, pl_y = self.game.player.map_pos
         dists = {int(sqrt((x - pl_x) ** 2 + (y - pl_y) ** 2)): (x, y) for x, y in self.spawn_zone}
-        s_x, s_y = dists[min(dists)]
-        self.add_npc(NPC(self.game, pos=(s_x, s_y)))
-        self.add_npc(NPC(self.game, pos=(s_x - 1, s_y)))
-        self.add_npc(NPC(self.game, pos=(s_x + 1, s_y)))
-        self.add_npc(NPC(self.game, pos=(s_x, s_y - 1)))
-        self.add_npc(NPC(self.game, pos=(s_x, s_y + 1)))
+        d = list(dists.keys())
+        d.sort()
+        for ds in d:
+            if ds < 10:
+                continue
+            else:
+                s_x, s_y = dists[ds]
+                break
+        if self.game.map.m == 1:
+            self.add_npc(NPC(self.game, pos=(s_x, s_y)))
+            self.add_npc(NPC(self.game, pos=(s_x - 1, s_y)))
+            self.add_npc(NPC(self.game, pos=(s_x + 1, s_y)))
+            self.add_npc(NPC(self.game, pos=(s_x, s_y - 1)))
+            self.add_npc(NPC(self.game, pos=(s_x, s_y + 1)))
+        else:
+            self.add_npc(NPC(self.game, pos=(s_x, s_y), path='res/sprite/enemy/skelet/0.png'))
+            self.add_npc(NPC(self.game, pos=(s_x - 1, s_y), path='res/sprite/enemy/skelet/0.png'))
+            self.add_npc(NPC(self.game, pos=(s_x + 1, s_y), path='res/sprite/enemy/skelet/0.png'))
+            self.add_npc(NPC(self.game, pos=(s_x, s_y - 1), path='res/sprite/enemy/skelet/0.png'))
+            self.add_npc(NPC(self.game, pos=(s_x, s_y + 1), path='res/sprite/enemy/skelet/0.png'))
 
     def clear_sprite(self):
         self.sprite_list.clear()
