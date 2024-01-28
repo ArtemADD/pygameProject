@@ -27,15 +27,18 @@ class PathFinding:
         visited = {start: None}
 
         while queue:
-            cur_node = queue.popleft()
-            if cur_node == goal:
-                break
-            next_nodes = graph[cur_node]
+            try:
+                cur_node = queue.popleft()
+                if cur_node == goal:
+                    break
+                next_nodes = graph[cur_node]
 
-            for next_node in next_nodes:
-                if next_node not in visited and next_node not in self.game.object_handler.npc_positions:
-                    queue.append(next_node)
-                    visited[next_node] = cur_node
+                for next_node in next_nodes:
+                    if next_node not in visited and next_node not in self.game.object_handler.npc_positions:
+                        queue.append(next_node)
+                        visited[next_node] = cur_node
+            except Exception:
+                continue
         return visited
 
     def get_next_nodes(self, x, y):

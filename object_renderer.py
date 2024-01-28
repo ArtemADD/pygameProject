@@ -10,7 +10,7 @@ class ObjectRenderer:
         self.wall_textures = self.load_wall_textures()
         self.sky_offset = 0
         self.bg_1 = self.get_texture('res/background/bg_1.png', (WIDTH, HALF_HEIGHT))
-        self.bg_2 = self.get_texture('res/background/bg_2_2.png', (WIDTH, HALF_HEIGHT))
+        self.bg_2 = self.get_texture('res/background/bg_2.png', (WIDTH, HALF_HEIGHT))
         self.flor1 = self.get_texture('res/background/flor1.png', (WIDTH, HALF_HEIGHT))
         self.flor2 = self.get_texture('res/background/flor2.png', (WIDTH, HALF_HEIGHT))
         self.blood_screen = self.get_texture('res/damage/blood_screen.png', RES)
